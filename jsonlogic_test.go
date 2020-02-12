@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"testing"
 
-	jsonlogic "github.com/HuanTeng/go-jsonlogic"
+	jsonlogic "github.com/bitlytanner/go-jsonlogic"
 )
 
 type TestCase struct {
@@ -14,48 +14,6 @@ type TestCase struct {
 	rule   string
 	data   string
 	expect interface{}
-}
-
-var defaultAggTestCases = []TestCase{
-	{
-		name:   "nil case",
-		rule:   `null`,
-		data:   `[true]`,
-		expect: nil,
-	},
-	{
-		name:   "_default_agg true",
-		rule:   `{"===" : [1, 1], "var": 0, "+": [1]}`,
-		data:   `[true]`,
-		expect: true,
-	},
-	{
-		name:   "_default_agg false",
-		rule:   `{"===" : [1, 1], "var": 0, "+": [1, -1]}`,
-		data:   `[true]`,
-		expect: false,
-	},
-}
-
-var quickVarTestCases = []TestCase{
-	{
-		name:   "quick var match",
-		rule:   `{"$name": "Jack"}`,
-		data:   `{"name": "Jack"}`,
-		expect: true,
-	},
-	{
-		name:   "2x quick var match",
-		rule:   `{"$name.first": "Jack", "$name.last": "Johnson"}`,
-		data:   `{"name": {"first": "Jack", "last": "Johnson"}}`,
-		expect: true,
-	},
-	{
-		name:   "2x quick var mismatch",
-		rule:   `{"$name.first": "Jack", "$name.last": "Johnson"}`,
-		data:   `{"name": {"first": "Johnson", "last": "Johnson"}}`,
-		expect: false,
-	},
 }
 
 var errorCases = []TestCase{
@@ -70,12 +28,6 @@ var errorCases = []TestCase{
 		rule:   `{"not_found": 1}`,
 		data:   `{}`,
 		expect: fmt.Errorf("operator not_found not found"),
-	},
-	{
-		name:   "not aggregator",
-		rule:   `{"+": 1, "-": 1}`,
-		data:   `{}`,
-		expect: fmt.Errorf("multiple keys found but default aggregator not defined"),
 	},
 	{
 		name:   "not quick access",
@@ -111,7 +63,6 @@ func TestErrorCases(t *testing.T) {
 
 	jl := jsonlogic.NewJSONLogic()
 
-	jl.AddOperation("_default_aggregator", nil)
 	jl.AddOperation("_quick_access", nil)
 
 	for _, c := range errorCases {
@@ -128,10 +79,3 @@ func TestErrorCases(t *testing.T) {
 	}
 }
 
-func TestDefaultAgg(t *testing.T) {
-	runTestCases(defaultAggTestCases, t)
-}
-
-func TestQuickVar(t *testing.T) {
-	runTestCases(quickVarTestCases, t)
-}

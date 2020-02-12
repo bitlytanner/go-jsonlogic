@@ -5,7 +5,6 @@ import (
 )
 
 const (
-	defaultAggregator = "_default_aggregator"
 	quickVarPrefix    = '$'
 	quickVarOp        = "_quick_access"
 )
@@ -33,11 +32,8 @@ func (jl *jsonLogic) apply(rule RuleType, data DataType) (result DataType, err e
 				}
 			}
 		} else {
-			aggOp, ok := jl.ops[defaultAggregator]
-			if !ok {
-				return nil, fmt.Errorf("multiple keys found but default aggregator not defined")
-			}
-			result, err = jl.applyOperatorWithParamMap(aggOp, rule, data)
+			// We have reached an object that is not recognized by the parser as logic. Return what we found.
+			return rule, nil
 		}
 	}
 

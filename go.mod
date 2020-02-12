@@ -1,3 +1,3 @@
-module github.com/HuanTeng/go-jsonlogic
+module github.com/bitlytanner/go-jsonlogic
 
 go 1.12

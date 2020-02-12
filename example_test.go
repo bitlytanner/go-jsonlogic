@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/HuanTeng/go-jsonlogic"
+	"github.com/bitlytanner/go-jsonlogic"
 )
 
 func ExampleApply() {
