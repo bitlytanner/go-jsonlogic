@@ -1,3 +1,11 @@
+# Fork notes
+
+This is a fork of [HuanTeng/go-jsonlogic](https://github.com/HuanTeng/go-jsonlogic). This is designed to be a temporary fork until the behavior I want can be proposed/merged into the original repo. 
+
+This repo has two key differences from the original:
+1. When an object with multiple keys is found, we return it to the original caller. It is basically saying "we found an object with 2 or more fields. Let's return it."
+2. The `===` and `!==` have been changed to `==` and `!=` respectively
+
 # go-jsonlogic
 
 [![Travis CI](https://travis-ci.org/HuanTeng/go-jsonlogic.svg?branch=master)](https://travis-ci.org/HuanTeng/go-jsonlogic)
